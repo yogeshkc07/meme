@@ -1,0 +1,7 @@
+{
+  "name": "Meme Generator",
+  "appUrl": "https://your-deployed-app.com",
+  "icon": "https://your-deployed-app.com/icon.png",
+  "version": "1.0.0",
+  "castShareUrl": "https://your-deployed-app.com/share"
+}

@@ -1,0 +1,179 @@
+/* Body & layout */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: "Karla", sans-serif;
+    margin: 0;
+}
+
+main {
+    flex: 1;  /* take remaining space */
+    margin-inline: auto;
+    padding: 36px;
+    max-width: 600px;
+    width: 100%;
+
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    height: 65px;
+    background: linear-gradient(90deg, #672280 1.18%, #A626D3 100%);
+    color: white;
+    padding: 20px;
+}
+
+.header > img {
+    height: 100%;
+    margin-right: 6px;
+}
+
+.header > h1 {
+    font-size: 1.25rem;
+    margin-right: auto;
+}
+
+/* Form */
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 15px; /* vertical spacing between rows */
+    column-gap: 15px; /* horizontal spacing between columns */
+    margin-bottom: 25px;
+}
+
+.form label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.form input, .form textarea {
+    margin-top: 5px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 10px 12px;
+    font-family: "Karla", sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    background-color: #f9f9f9;
+    resize: vertical;
+}
+
+.form input:focus, .form textarea:focus {
+    border-color: #a626d3;
+    box-shadow: 0 0 5px rgba(166, 38, 211, 0.5);
+}
+
+.form textarea {
+ 
+    margin-top: 5px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 10px 12px;
+    font-family: "Karla", sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    background-color: #f9f9f9;
+    resize: vertical; /* allow vertical resize if needed */
+}
+
+.form textarea:focus {
+    border-color: #a626d3;
+    box-shadow: 0 0 5px rgba(166, 38, 211, 0.5);
+}
+
+.form button {
+    grid-column: 1 / -1;
+    border-radius: 10px;
+    background: linear-gradient(90.41deg, #711F8D 1.14%, #A818DA 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 12px 0;
+    transition: all 0.2s ease-in-out;
+}
+
+.form button:hover {
+    opacity: 0.9;
+}
+
+/* Meme display */
+.meme {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.meme > img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 3px;
+}
+
+.meme span {
+    position: absolute;
+    text-align: center;
+    white-space: pre-wrap; /* preserve new lines */
+    padding: 5px 10px;
+    font-family: impact, sans-serif;
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: white;
+    letter-spacing: 1px;
+    text-shadow:
+        2px 2px 0 #000,
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        0 2px 0 #000,
+        2px 0 0 #000,
+        0 -2px 0 #000,
+        -2px 0 0 #000,
+        2px 2px 5px #000;
+}
+
+
+.bottom {
+    bottom: 10px;
+}
+
+.top {
+    top: 10px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, #672280 1.18%, #A626D3 100%);
+    color: white;
+    height: 100px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    .form {
+        grid-template-columns: 1fr;
+        row-gap: 15px;
+    }
+
+    .meme span {
+        font-size: 1.5rem;
+        padding: 3px 6px;
+    }
+}
