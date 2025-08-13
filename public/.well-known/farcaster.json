@@ -4,9 +4,9 @@
     "name": "Meme Maker",
     "iconUrl": "https://meme-sigma-five.vercel.app/generator.jpg",
     "homeUrl": "https://meme-sigma-five.vercel.app/",
-    "imageUrl": "https://meme-sigma-five.vercel.app/generator.jpg",
+    "imageUrl": "https://meme-sigma-five.vercel.app/posh.png",
     "buttonTitle": "🎉 Create Meme",
-    "splashImageUrl": "https://meme-sigma-five.vercel.app/generator.jpg",
+    "splashImageUrl": "https://meme-sigma-five.vercel.app/jackie.png",
     "splashBackgroundColor": "#ffffff",
     "webhookUrl": "https://meme-sigma-five.vercel.app/api/notify"
   }
