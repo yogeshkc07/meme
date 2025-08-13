@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 export function Meme() {
   const [meme, setMeme] = useState({
@@ -9,27 +9,39 @@ export function Meme() {
 
   const [allMemes, setAllMemes] = useState([]);
 
+  useEffect(() => {
+    fetch("https://api.imgflip.com/get_memes")
+      .then((res) => res.json())
+      .then((data) => setAllMemes(data.data.memes));
+  }, []);
+
   function handleOnChange(event) {
-    const { value, name } = event.currentTarget;
-    setMeme(prevMeme => ({
-      ...prevMeme,
-      [name]: value
+    const { name, value } = event.currentTarget;
+    setMeme((prev) => ({
+      ...prev,
+      [name]: value,
     }));
   }
 
-  useEffect(() => {
-    fetch('https://api.imgflip.com/get_memes')
-      .then(res => res.json())
-      .then(data => setAllMemes(data.data.memes));
-  }, []);
+  function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      const { name, value } = event.currentTarget;
+      setMeme((prev) => ({
+        ...prev,
+        [name]: value + "\n",
+      }));
+      event.preventDefault();
+    }
+  }
 
   function getMemeImage() {
+    if (!allMemes.length) return;
     const index = Math.floor(Math.random() * allMemes.length);
     const newMemeUrl = allMemes[index].url;
 
-    setMeme(prevMeme => ({
-      ...prevMeme,
-      imageUrl: newMemeUrl
+    setMeme((prev) => ({
+      ...prev,
+      imageUrl: newMemeUrl,
     }));
   }
 
@@ -43,7 +55,7 @@ export function Meme() {
             name="topText"
             value={meme.topText}
             onChange={handleOnChange}
-            rows={2}
+            onKeyDown={handleKeyDown}
           />
         </label>
 
@@ -54,7 +66,7 @@ export function Meme() {
             name="bottomText"
             value={meme.bottomText}
             onChange={handleOnChange}
-            rows={2}
+            onKeyDown={handleKeyDown}
           />
         </label>
 
