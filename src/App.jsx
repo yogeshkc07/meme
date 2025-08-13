@@ -6,10 +6,10 @@ import { Footer } from "./Footer";
 
 export function App() {
   useEffect(() => {
-    // Ensure the app is ready
-    sdk.actions.ready().then(() => {
-      console.log("Farcaster Mini App SDK is ready!");
-    });
+    async function readySDK() {
+      await sdk.actions.ready();
+    }
+    readySDK();
   }, []);
 
   return (
