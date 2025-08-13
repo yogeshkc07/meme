@@ -1,7 +1,0 @@
-{
-  "name": "Meme Generator",
-  "appUrl": "https://your-deployed-app.com",
-  "icon": "https://meme-sigma-five.vercel.app/",
-  "version": "1.0.0",
-  "castShareUrl": "https://your-deployed-app.com/share"
-}
