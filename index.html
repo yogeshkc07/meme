@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Farcaster Miniapp Meta -->
     <meta
       name="fc:miniapp"
       content='{
-  "version": "1",
-  "imageUrl": "https://your-deployed-app.com/share-image.png",
-  "button": {
-    "title": "Open Meme Generator",
-    "action": {
-      "type": "launch_miniapp",
-      "url": "https://your-deployed-app.com",
-      "name": "Meme Generator",
-      "splashImageUrl": "https://your-deployed-app.com/splash.png",
-      "splashBackgroundColor": "#ffffff"
+    "version": "1",
+    "imageUrl": "https://meme-sigma-five.vercel.app/og-image.png",
+    "button": {
+      "title": "Launch Meme Generator",
+      "action": {
+        "type": "launch_miniapp",
+        "url": "https://meme-sigma-five.vercel.app",
+        "name": "Meme Generator",
+        "splashImageUrl": "https://meme-sigma-five.vercel.app/posh.png",
+        "splashBackgroundColor": "#ffffff"
+      }
     }
-  }
-}'
+  }'
     />
+
+    <!-- Open Graph / Twitter fallback -->
+    <meta property="og:title" content="Meme Generator 🎉" />
+    <meta
+      property="og:description"
+      content="Create and share memes instantly inside Farcaster."
+    />
+    <meta
+      property="og:image"
+      content="https://meme-sigma-five.vercel.app/posh.png"
+    />
+    <meta property="og:url" content="https://meme-sigma-five.vercel.app" />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="icon" type="image/svg+xml" href="posh.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
