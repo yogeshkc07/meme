@@ -29,26 +29,21 @@ export function Meme() {
   }
 
   async function shareMeme() {
-
     try {
       const result = await sdk.actions.composeCast({
-        text: `${meme.topText}\n${meme.bottomText}\n\nThis meme is made using Meme Maker 🎉`,
+        text: `${meme.topText}\n${meme.bottomText}\n\nThis meme is made using Meme Maker 🎉\nTry it here: https://meme-sigma-five.vercel.app`,
         embeds: [meme.imageUrl],
-        channelKey: "farcaster", // optional
       });
 
-
-      if (result?.cast) {
-        console.log("Cast shared:", result.cast.hash);
+      if (result?.success) {
         alert("Meme shared to Farcaster!");
-      } else {
-        alert("Meme sharing canceled.");
       }
     } catch (err) {
       console.error("Error sharing meme:", err);
       alert("Failed to share meme.");
     }
   }
+
 
   return (
     <main>
