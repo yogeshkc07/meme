@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { sdk } from "@farcaster/miniapp-sdk";
 
 export function Meme() {
@@ -7,11 +7,11 @@ export function Meme() {
     bottomText: "",
     imageUrl: "https://i.imgflip.com/1bij.jpg",
   });
-
   const [allMemes, setAllMemes] = useState([]);
+  const canvasRef = useRef(null);
 
+  // Fetch memes
   useEffect(() => {
-    // Fetch memes
     fetch("https://api.imgflip.com/get_memes")
       .then((res) => res.json())
       .then((data) => setAllMemes(data.data.memes));
@@ -28,11 +28,82 @@ export function Meme() {
     setMeme((prev) => ({ ...prev, imageUrl: allMemes[index].url }));
   }
 
+  function drawMemeOnCanvas() {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    const image = new Image();
+    image.crossOrigin = "anonymous"; // To avoid CORS issues
+    image.src = meme.imageUrl;
+
+    return new Promise((resolve) => {
+      image.onload = () => {
+        // Set canvas size to image size
+        canvas.width = image.width;
+        canvas.height = image.height;
+
+        // Draw image
+        ctx.drawImage(image, 0, 0);
+
+        // Set text styles
+        ctx.fillStyle = "white";
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 3;
+        ctx.textAlign = "center";
+        ctx.font = `${Math.floor(canvas.width / 10)}px Impact`;
+        ctx.textBaseline = "top";
+
+        // Draw top text
+        ctx.fillText(meme.topText.toUpperCase(), canvas.width / 2, 10);
+        ctx.strokeText(meme.topText.toUpperCase(), canvas.width / 2, 10);
+
+        // Draw bottom text
+        ctx.textBaseline = "bottom";
+        ctx.fillText(
+          meme.bottomText.toUpperCase(),
+          canvas.width / 2,
+          canvas.height - 10
+        );
+        ctx.strokeText(
+          meme.bottomText.toUpperCase(),
+          canvas.width / 2,
+          canvas.height - 10
+        );
+
+        resolve(canvas.toDataURL("image/png"));
+      };
+    });
+  }
+
+  async function uploadToImgur(dataUrl) {
+    const CLIENT_ID = "YOUR_IMGUR_CLIENT_ID"; // Replace with your Imgur client ID
+    const base64 = dataUrl.split(",")[1];
+
+    const response = await fetch("https://api.imgur.com/3/image", {
+      method: "POST",
+      headers: {
+        Authorization: `Client-ID ${CLIENT_ID}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ image: base64, type: "base64" }),
+    });
+
+    const data = await response.json();
+    if (data.success) return data.data.link;
+    throw new Error("Imgur upload failed");
+  }
+
   async function shareMeme() {
     try {
+      // Step 1 & 2: Draw on canvas and get PNG
+      const memeDataUrl = await drawMemeOnCanvas();
+
+      // Step 3: Upload to get public URL
+      const memeUrl = await uploadToImgur(memeDataUrl);
+
+      // Step 4: Share to Farcaster
       const result = await sdk.actions.composeCast({
-        text: `${meme.topText}\n${meme.bottomText}\n\nThis meme is made using Meme Maker 🎉\nTry it here: https://meme-sigma-five.vercel.app`,
-        embeds: [meme.imageUrl],
+        text: "Check out my meme! 🎉",
+        embeds: [memeUrl],
       });
 
       if (result?.success) {
@@ -43,7 +114,6 @@ export function Meme() {
       alert("Failed to share meme.");
     }
   }
-
 
   return (
     <main>
@@ -72,10 +142,8 @@ export function Meme() {
         <button onClick={shareMeme}>Share to Farcaster 🚀</button>
       </div>
 
-      <div className="meme">
-        <img src={meme.imageUrl} alt="Meme" />
-        <span className="top">{meme.topText}</span>
-        <span className="bottom">{meme.bottomText}</span>
+      <div className="meme-preview">
+        <canvas ref={canvasRef} style={{ maxWidth: "100%" }} />
       </div>
     </main>
   );
