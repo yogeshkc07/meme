@@ -32,7 +32,10 @@ export function Meme() {
     try {
       const result = await sdk.actions.composeCast({
         text: `This meme was made using Meme Maker 🎉\n\n${meme.topText}\n${meme.bottomText}`,
-        embeds: ["meme-sigma-five.vercel.app"], // This will create the mini app card preview
+        embeds: [
+          meme.imageUrl,
+          "https://api.farcaster.xyz/miniapps/hosted-manifest/0198a5e5-35bf-fbaf-3003-7d6876eff1e8"
+        ],
       });
 
       if (result?.success) {
