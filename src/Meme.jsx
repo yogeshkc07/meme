@@ -11,57 +11,61 @@ export function Meme() {
   const [allMemes, setAllMemes] = useState([]);
 
   useEffect(() => {
+    // Fetch memes
     fetch("https://api.imgflip.com/get_memes")
-      .then(res => res.json())
-      .then(data => setAllMemes(data.data.memes));
+      .then((res) => res.json())
+      .then((data) => setAllMemes(data.data.memes));
   }, []);
 
   function handleOnChange(e) {
     const { name, value } = e.target;
-    setMeme(prev => ({ ...prev, [name]: value }));
+    setMeme((prev) => ({ ...prev, [name]: value }));
   }
 
   function getMemeImage() {
     if (!allMemes.length) return;
     const index = Math.floor(Math.random() * allMemes.length);
-    setMeme(prev => ({ ...prev, imageUrl: allMemes[index].url }));
+    setMeme((prev) => ({ ...prev, imageUrl: allMemes[index].url }));
   }
+
   async function shareMeme() {
     try {
-      await sdk.actions.composeCast({
-        text: `This meme was made using Meme Generator 🎉\n\nClick below to make your own:`,
-        embeds: [
-          {
-            type: "image",
-            url: meme.imageUrl
-          },
-          {
-            type: "miniapp",
-            url: "https://meme-sigma-five.vercel.app",
-            name: "Meme Generator",
-            imageUrl: meme.imageUrl,
-            splashImageUrl: "https://meme-sigma-five.vercel.app/posh.png",
-            splashBackgroundColor: "#ffffff"
-          }
-        ]
+      const result = await sdk.actions.composeCast({
+        text: `This meme was made using Meme Maker 🎉\n\n${meme.topText}\n${meme.bottomText}`,
+
       });
+
+      if (result?.success) {
+        console.log("Cast composed successfully:", result);
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Error composing cast:", err);
       alert("Failed to share meme.");
     }
   }
+
 
   return (
     <main>
       <div className="form">
         <label>
           Top Text
-          <textarea name="topText" value={meme.topText} onChange={handleOnChange} rows={2} />
+          <textarea
+            name="topText"
+            value={meme.topText}
+            onChange={handleOnChange}
+            rows={2}
+          />
         </label>
 
         <label>
           Bottom Text
-          <textarea name="bottomText" value={meme.bottomText} onChange={handleOnChange} rows={2} />
+          <textarea
+            name="bottomText"
+            value={meme.bottomText}
+            onChange={handleOnChange}
+            rows={2}
+          />
         </label>
 
         <button onClick={getMemeImage}>New Meme Image 🖼️</button>
