@@ -26,18 +26,21 @@ export function Meme() {
     const index = Math.floor(Math.random() * allMemes.length);
     setMeme(prev => ({ ...prev, imageUrl: allMemes[index].url }));
   }
-
   async function shareMeme() {
     try {
       await sdk.actions.composeCast({
-        text: `This meme was made using Meme Generator 🎉\n\nLaunch here:`,
+        text: `This meme was made using Meme Generator 🎉\n\nClick below to make your own:`,
         embeds: [
+          {
+            type: "image",
+            url: meme.imageUrl
+          },
           {
             type: "miniapp",
             url: "https://meme-sigma-five.vercel.app",
             name: "Meme Generator",
-            imageUrl: meme.imageUrl, // The meme they just created
-            splashImageUrl: "https://meme-sigma-five.vercel.app/josh.png",
+            imageUrl: meme.imageUrl,
+            splashImageUrl: "https://meme-sigma-five.vercel.app/posh.png",
             splashBackgroundColor: "#ffffff"
           }
         ]
