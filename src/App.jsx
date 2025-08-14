@@ -7,7 +7,12 @@ import { Footer } from "./Footer";
 export function App() {
   useEffect(() => {
     async function readySDK() {
-      await sdk.actions.ready();
+      try {
+        await sdk.actions.ready();
+        console.log("Farcaster SDK is ready!");
+      } catch (err) {
+        console.error("Error calling sdk.actions.ready():", err);
+      }
     }
     readySDK();
   }, []);
