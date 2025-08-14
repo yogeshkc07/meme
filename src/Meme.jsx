@@ -1,48 +1,44 @@
 import React, { useState, useEffect } from "react";
+import { sdk } from "@farcaster/miniapp-sdk";
 
 export function Meme() {
   const [meme, setMeme] = useState({
-    topText: "One does not Simply",
-    bottomText: "Walk into Mordor",
-    imageUrl: "http://i.imgflip.com/1bij.jpg",
+    topText: "",
+    bottomText: "",
+    imageUrl: "https://i.imgflip.com/1bij.jpg",
   });
 
   const [allMemes, setAllMemes] = useState([]);
 
   useEffect(() => {
+    // Fetch memes
     fetch("https://api.imgflip.com/get_memes")
-      .then((res) => res.json())
-      .then((data) => setAllMemes(data.data.memes));
+      .then(res => res.json())
+      .then(data => setAllMemes(data.data.memes));
   }, []);
 
-  function handleOnChange(event) {
-    const { name, value } = event.currentTarget;
-    setMeme((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
-
-  function handleKeyDown(event) {
-    if (event.key === "Enter") {
-      const { name, value } = event.currentTarget;
-      setMeme((prev) => ({
-        ...prev,
-        [name]: value + "\n",
-      }));
-      event.preventDefault();
-    }
+  function handleOnChange(e) {
+    const { name, value } = e.target;
+    setMeme(prev => ({ ...prev, [name]: value }));
   }
 
   function getMemeImage() {
     if (!allMemes.length) return;
     const index = Math.floor(Math.random() * allMemes.length);
-    const newMemeUrl = allMemes[index].url;
+    setMeme(prev => ({ ...prev, imageUrl: allMemes[index].url }));
+  }
 
-    setMeme((prev) => ({
-      ...prev,
-      imageUrl: newMemeUrl,
-    }));
+  async function shareMeme() {
+    try {
+      await sdk.actions.publishText({
+        text: `${meme.topText}\n${meme.bottomText}`,
+        imageUrls: [meme.imageUrl],
+      });
+      alert("Meme shared to Farcaster!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to share meme.");
+    }
   }
 
   return (
@@ -50,27 +46,16 @@ export function Meme() {
       <div className="form">
         <label>
           Top Text
-          <textarea
-            placeholder="One does not simply"
-            name="topText"
-            value={meme.topText}
-            onChange={handleOnChange}
-            onKeyDown={handleKeyDown}
-          />
+          <textarea name="topText" value={meme.topText} onChange={handleOnChange} rows={2} />
         </label>
 
         <label>
           Bottom Text
-          <textarea
-            placeholder="Walk into Mordor"
-            name="bottomText"
-            value={meme.bottomText}
-            onChange={handleOnChange}
-            onKeyDown={handleKeyDown}
-          />
+          <textarea name="bottomText" value={meme.bottomText} onChange={handleOnChange} rows={2} />
         </label>
 
-        <button onClick={getMemeImage}>Get a new meme image 🖼️</button>
+        <button onClick={getMemeImage}>New Meme Image 🖼️</button>
+        <button onClick={shareMeme}>Share to Farcaster 🚀</button>
       </div>
 
       <div className="meme">
