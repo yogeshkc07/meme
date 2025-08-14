@@ -29,12 +29,14 @@ export function Meme() {
   }
 
   async function shareMeme() {
+
     try {
       const result = await sdk.actions.composeCast({
-        text: `${meme.topText}\n${meme.bottomText}`,
+        text: `${meme.topText}\n${meme.bottomText}\n\nThis meme is made using Meme Maker 🎉`,
         embeds: [meme.imageUrl],
-        channelKey: "farcaster", // Optional: specify a channel
+        channelKey: "farcaster", // optional
       });
+
 
       if (result?.cast) {
         console.log("Cast shared:", result.cast.hash);
