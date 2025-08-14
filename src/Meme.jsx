@@ -31,15 +31,15 @@ export function Meme() {
   async function shareMeme() {
     try {
       const result = await sdk.actions.composeCast({
-        text: `This meme was made using Meme Maker 🎉\n\n${meme.topText}\n${meme.bottomText}`,
-
+        text: `${meme.topText}\n${meme.bottomText}\n\nThis meme is made using Meme Maker 🎉\nTry it here: https://meme-sigma-five.vercel.app`,
+        embeds: [meme.imageUrl],
       });
 
       if (result?.success) {
-        console.log("Cast composed successfully:", result);
+        alert("Meme shared to Farcaster!");
       }
     } catch (err) {
-      console.error("Error composing cast:", err);
+      console.error("Error sharing meme:", err);
       alert("Failed to share meme.");
     }
   }
