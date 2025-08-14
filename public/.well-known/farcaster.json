@@ -8,6 +8,10 @@
     "buttonTitle": "🎉 Create Meme",
     "splashImageUrl": "https://meme-sigma-five.vercel.app/jackie.png",
     "splashBackgroundColor": "#ffffff",
-    "webhookUrl": "https://meme-sigma-five.vercel.app/api/notify"
+    "webhookUrl": "https://meme-sigma-five.vercel.app/api/notify",
+      "requiredCapabilities": [
+      "actions.signIn",
+      "actions.publishText"
+    ]
   }
 }
